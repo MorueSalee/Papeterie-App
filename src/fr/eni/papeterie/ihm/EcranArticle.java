@@ -7,11 +7,8 @@ import fr.eni.papeterie.bo.Stylo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
-public class EcranPrincipal extends JFrame {
+public class EcranArticle extends JFrame implements CatalogueController.CatalogueListener {
     private JSplitPane splitPane;
 
     private JPanel panelChamps;
@@ -53,7 +50,7 @@ public class EcranPrincipal extends JFrame {
 
     private Article currentArticle = null;
 
-    public EcranPrincipal(CatalogueController controller) throws BLLException {
+    public EcranArticle(CatalogueController controller) throws BLLException {
         super("Papeterie DunderMiflin & Co");
         setSize(500, 500);
         setLocation(100, 100);
@@ -422,7 +419,6 @@ public class EcranPrincipal extends JFrame {
             article.setIdArticle(currentArticle.getIdArticle());
             controller.update(article);
         }
-
     }
 
     private Article getArticleFromChamps() {
@@ -460,5 +456,29 @@ public class EcranPrincipal extends JFrame {
         }
 
         return a;
+    }
+
+    @Override
+    public void onArticleSelected(int index) {
+    }
+
+    @Override
+    public void onCatalogueSelected(Article a) {
+        setChamps(a);
+    }
+
+    @Override
+    public void onArticleUpdated(int index) {
+
+    }
+
+    @Override
+    public void onArticleUpdated(int index, Article a) {
+
+    }
+
+    @Override
+    public void onArticleDeleted(int index) {
+
     }
 }
