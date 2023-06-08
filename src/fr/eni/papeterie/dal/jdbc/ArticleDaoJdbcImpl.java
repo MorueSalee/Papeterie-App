@@ -175,8 +175,8 @@ public class ArticleDaoJdbcImpl implements ArticleDAO {
         String reference = rs.getString("reference");
         String marque = rs.getString("marque");
         String designation = rs.getString("designation");
-        Float prixUnitaire = rs.getFloat("prixUnitaire");
-        Integer qteStock = rs.getInt("qteStock");
+        float prixUnitaire = rs.getFloat("prixUnitaire");
+        int qteStock = rs.getInt("qteStock");
         String type = rs.getString("type").trim();
 
         Article a = null;

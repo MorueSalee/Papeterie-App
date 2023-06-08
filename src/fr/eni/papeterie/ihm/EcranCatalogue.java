@@ -4,14 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import fr.eni.papeterie.bo.Article;
 
 public class EcranCatalogue extends JFrame implements CatalogueController.CatalogueListener {
 
-    private CatalogueController controller;
+    private final CatalogueController controller;
 
     private JTable table;
 
@@ -53,17 +51,12 @@ public class EcranCatalogue extends JFrame implements CatalogueController.Catalo
         //setSelectionMode(...) -> permet de ne sélectionner qu'une seule ligne
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // !! Chaque clic génère 2 ListSelectionEvent, il ne faut en prendre qu'un seul !
-                if (!e.getValueIsAdjusting()) {
-                    int ligneSelectionnee = table.getSelectedRow();
-                    Article articleSelectionne = model.getValueAt(ligneSelectionnee);
-                    if (model.getRowCount() > 0) {
-                        controller.selectArticle(ligneSelectionnee);
-                    }
+        table.getSelectionModel().addListSelectionListener(e -> {
+            // !! Chaque clic génère 2 ListSelectionEvent, il ne faut en prendre qu'un seul !
+            if (!e.getValueIsAdjusting()) {
+                int ligneSelectionnee = table.getSelectedRow();
+                if (model.getRowCount() > 0) {
+                    controller.selectArticle(ligneSelectionnee);
                 }
             }
         });
@@ -104,7 +97,6 @@ public class EcranCatalogue extends JFrame implements CatalogueController.Catalo
 
     @Override
     public void onArticleDeleted(int index) {
-        System.out.println(index);
         model.deleteRow(index);
         panel.setViewportView(getTable(model));
         if (model.getRowCount() > 0) {
